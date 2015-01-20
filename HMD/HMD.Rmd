@@ -1,0 +1,21 @@
+---
+title: "HMD"
+author: "JcB"
+date: "28/11/2014"
+output: html_document
+---
+
+```{r}
+# install.packages("demography")
+
+library("demography", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.1")
+username <- "jeanclaude.bartier@gmail.com"
+password <- "vendenheim"
+pop2010 <- hmd.pop("AUS",username,password,"Australia")
+str(pop2010)
+plot(pop2010)
+pop2010 <- extract.ages(pop2010, age=0:100)
+aus.mort <- hmd.mx("AUS",username,password,"Australia")
+str(aus.mort)
+```
+
