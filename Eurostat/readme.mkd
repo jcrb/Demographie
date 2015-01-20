@@ -1,0 +1,29 @@
+
+[source](http://ec.europa.eu/eurostat/web/health/causes-death/data/database)
+    European Commission
+    Eurostat
+    Health
+    Causes of death
+    Data
+    Database
+    
+ Fichier: Causes of death - Deaths by country of residence and occurrence (hlth_cd_aro)
+ 
+ info:
+ Causes of death - Deaths by country of residence and occurrence
+
+Title:
+    Causes of death - Deaths by country of residence and occurrence
+Code:
+    hlth_cd_aro
+Last update of data:
+    02.12.2014
+Last table structure change:
+    02.12.2014
+Number of values:
+    451521 
+
+Détails dans les [métadata](http://ec.europa.eu/eurostat/cache/metadata/en/hlth_cdeath_esms.htm)
+
+
+

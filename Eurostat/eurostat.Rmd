@@ -1,0 +1,13 @@
+---
+title: "Eurostat"
+author: "JcB"
+date: "12/01/2015"
+output: html_document
+---
+
+```{r}
+file <- "Eurostat/hlth_cd_aro.tsv"
+d <- read.table(file, header=TRUE, sep = "\t")
+
+```
+

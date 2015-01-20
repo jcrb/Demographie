@@ -1,0 +1,7 @@
+Tables de mortalité de l'OMS
+============================
+
+L'idée de ce travail est inspiré de l'article [Deaths in young people aged 0—24 years in the UK compared with the EU15+ countries, 1970—2008: analysis of the WHO Mortality Database](http://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2814%2960485-2/fulltext?_eventId=login)
+parue dans le Lancet (The Lancet  6 September 2014 (Volume 384 Issue 9946 Pages 880-892 DOI: 10.1016/S0140-6736(14)60485-2)).
+
+La source de données est celle de l'[OMS](http://www.who.int/healthinfo/statistics/mortality_rawdata/en/) qui fait 90 Mo dezippée.

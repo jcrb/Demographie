@@ -1,0 +1,29 @@
+Démographie
+===========
+
+Source de données
+-----------------
+
+[The Human Mortality Database](http://www.mortality.org/)
+
+- login: jeanclaude.bartier@gmail.com
+- pass: vendenheim
+
+The Human Mortality Database (HMD) was created to provide detailed mortality and population data to researchers, students, journalists, policy analysts, and others interested in the history of human longevity. The project began as an outgrowth of earlier projects in the Department of Demography at the University of California, Berkeley, USA, and at the Max Planck Institute for Demographic Research in Rostock, Germany (see history). It is the work of two teams of researchers in the USA and Germany (see research teams), with the help of financial backers and scientific collaborators from around the world
+
+sous-dossier: __HMD__. J'y ai mis les données pour la France (FRATNP.zip)
+
+Bibliothèque R: [demography](http://cran.r-project.org/web/packages/demography/index.html)
+
+compléments [github](https://ucbdemography.github.io/DemogBerkeley/): projet pour exploiter les données fournies par HMD. Le [repository](https://github.com/UCBdemography/DemogBerkeley/).
+
+Pour une démo, consulter ce [blog](http://robjhyndman.com/hyndsight/coherent-population-forecasting/) avec notamment un design intéressant pour une pyramide des ages.
+
+Adresse de ce [site](http://robjhyndman.com/hyndsight/hmd-australia/)
+
+---
+
+[DemogBerkeley](https://github.com/UCBdemography/DemogBerkeley/blob/master/README.md)
+
+
+
