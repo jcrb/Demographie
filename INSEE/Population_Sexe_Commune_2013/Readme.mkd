@@ -1,0 +1,29 @@
+Population par commune et sexe
+==============================
+
+Base de tableaux détaillés : population et lieu de résidence antérieure en 2012
+
+Date de première mise en ligne : 25 juin 2015
+
+Source [INSEE](http://www.insee.fr/fr/themes/detail.asp?reg_id=99&ref_id=td-population-12)
+
+
+L'INSEE fournit le fichier rp19682011_individus_dbase/rp19682011.dbf au format DBase
+
+Fichier Population par Communes et par sexe
+===========================================
+
+Dernier fichier remonte au recensement 2012 avec une mise à jour le 25 juin 2015. Difficile à trouver sur le site de l'INSEE: 
+```
+Accueil > Thèmes > Population > Évolution et structure de la population 
+
+- choisir le premier item: Démarrer votre recherche
+- cocher __Données détaillées : bases de données téléchargeables__
+- OK
+- chercher le lien: Base de tableaux détaillés : population et lieu de résidence antérieur à 2012
+- BD: __POP1B : population par sexe et âge__. Le fichier fait plus de 7 millions de lignes
+```
+
+
+
+
