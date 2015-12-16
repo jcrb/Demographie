@@ -1,0 +1,647 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={JcB},
+            pdftitle={INSEE},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{INSEE}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{JcB}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{13/10/2075}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+L'INSEE fournit le fichier rp19682011\_individus\_dbase/rp19682011.dbf
+au format DBase
+
+\section{Fichier Population par Communes et par
+sexe}\label{fichier-population-par-communes-et-par-sexe}
+
+Dernier fichier remonte au recensement 2012 avec une mise à jour le 25
+juin 2075. Difficile à trouver sur le site de l'INSEE:
+
+\begin{verbatim}
+Accueil > Thèmes > Population > Évolution et structure de la population 
+
+- choisir le premier item: Démarrer votre recherche
+- cocher __Données détaillées : bases de données téléchargeables__
+- OK
+- chercher le lien: Base de tableaux détaillés : population et lieu de résidence antérieur à 2012
+- BD: __POP1B : population par sexe et âge__. Le fichier fait plus de 7 millions de lignes
+\end{verbatim}
+
+\subsection{Chargemet du fichier}\label{chargemet-du-fichier}
+
+Comme souvent dans l'administration française, le format utilisé est
+windows latin1\ldots{} Le fichier est très volumineux (283 Mb)
+
+\begin{verbatim}
+file <- "INSEE/Population_Sexe_Commune_2013/BTT_TD_POP1B_2012.txt"
+d <- read.csv2(file, encoding = "latin1")
+head(d)
+\end{verbatim}
+
+\subsection{On ne garde que les données de la zone
+Alsace-Lorraine}\label{on-ne-garde-que-les-donnees-de-la-zone-alsace-lorraine}
+
+Le fichier créé pour le 67 comporte 106.454 lignes et 6 colonnes. Il
+correspond aux 527 communes fois 100 classes d'age (0-100 ans) fois 2
+classes (H et F). Chaque commune est caractérisée par son nom et son
+code INSEE.
+
+metadata:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  ``NIVGEO'' com = commune, ARM arrondissement (Paris, Marseille)
+\item
+  ``CODGEO'' code INSEE
+\item
+  ``LIBGEO'' nom de la commune
+\item
+  ``SEXE'' 1 = Homme, 2 = Femme
+\item
+  ``AGED100'' age en années de 0 à 100 ans (Age 000 = moins de 1 an)
+\item
+  ``NB'' nombre de personnes dans la catégorie d'age et de sexe
+\end{itemize}
+
+La fonction \textbf{str\_detect()} retourne TRUE si l'élément du vecteur
+\emph{d\$CODGEO} contient le gabarit p.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Bas-Rhin}
+\NormalTok{p <-}\StringTok{ "^67"}
+\NormalTok{pop67}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop67_2012.Rda"}\NormalTok{)}
+
+\CommentTok{# Haut-Rhin}
+\NormalTok{p <-}\StringTok{ "^68"}
+\NormalTok{pop68}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop68}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop68_2012.Rda"}\NormalTok{)}
+
+\CommentTok{# Moselle}
+\NormalTok{p <-}\StringTok{ "^57"}
+\NormalTok{pop57}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop57}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop57_2012.Rda"}\NormalTok{)}
+
+\CommentTok{# Meurthe et Moselle}
+\NormalTok{p <-}\StringTok{ "^54"}
+\NormalTok{pop54}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop54}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop54_2012.Rda"}\NormalTok{)}
+
+\CommentTok{# Vosges}
+\NormalTok{p <-}\StringTok{ "^88"}
+\NormalTok{pop88}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop88}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop88_2012.Rda"}\NormalTok{)}
+
+\CommentTok{# Meuse}
+\NormalTok{p <-}\StringTok{ "^55"}
+\NormalTok{pop55}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\NormalTok{d[}\KeywordTok{str_detect}\NormalTok{(d$CODGEO, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\KeywordTok{save}\NormalTok{(pop55}\FloatTok{.2012}\NormalTok{, }\DataTypeTok{file =} \StringTok{"INSEE/Population_Sexe_Commune_2013/pop55_2012.Rda"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Exploitation des données}\label{exploitation-des-donnees}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(stringr)}
+
+\KeywordTok{load}\NormalTok{(}\StringTok{"Population_Sexe_Commune_2013/pop67_2012.Rda"}\NormalTok{)}
+\CommentTok{# en mode console:}
+\CommentTok{# load("INSEE/Population_Sexe_Commune_2013/pop67_2012.Rda")}
+
+\CommentTok{# population totale du 67}
+\NormalTok{n.pop67}\FloatTok{.2012} \NormalTok{<-}\StringTok{ }\KeywordTok{sum}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$NB)}
+
+\CommentTok{# population par commune. La commune est repérée par son code INSEE}
+\NormalTok{pop.com}\FloatTok{.67} \NormalTok{<-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$NB, }\KeywordTok{factor}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$CODGEO), sum)}
+\KeywordTok{head}\NormalTok{(pop.com}\FloatTok{.67}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 67001 67002 67003 67004 67005 67006 
+##  2043   408   467   526   824   214
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# population par commune et par sexe}
+\NormalTok{pop.com}\FloatTok{.67}\NormalTok{.sexe <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$NB, }\KeywordTok{list}\NormalTok{(}\KeywordTok{factor}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$CODGEO), pop67}\FloatTok{.2012}\NormalTok{$SEXE), sum)}
+\KeywordTok{colnames}\NormalTok{(pop.com}\FloatTok{.67}\NormalTok{.sexe) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{,}\StringTok{"F"}\NormalTok{)}
+
+\KeywordTok{head}\NormalTok{(pop.com}\FloatTok{.67}\NormalTok{.sexe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               H         F
+## 67001 1019.0000 1024.0000
+## 67002  194.6327  213.3673
+## 67003  243.4362  223.5638
+## 67004  270.3738  255.6262
+## 67005  425.8769  398.1231
+## 67006  103.9429  110.0571
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(pop.com}\FloatTok{.67}\NormalTok{.sexe[,}\StringTok{"H"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     67001     67002     67003     67004     67005     67006 
+## 1019.0000  194.6327  243.4362  270.3738  425.8769  103.9429
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(pop.com}\FloatTok{.67}\NormalTok{.sexe[,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     67001     67002     67003     67004     67005     67006 
+## 1024.0000  213.3673  223.5638  255.6262  398.1231  110.0571
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# population de 75 ans et plus par commune}
+\NormalTok{pop75 <-}\StringTok{ }\NormalTok{pop67}\FloatTok{.2012}\NormalTok{[pop67}\FloatTok{.2012}\NormalTok{$AGED100 >}\StringTok{ }\DecValTok{74}\NormalTok{,]}
+\NormalTok{pop75.com}\FloatTok{.67} \NormalTok{<-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(pop75$NB, }\KeywordTok{factor}\NormalTok{(pop75$CODGEO), sum)}
+\KeywordTok{head}\NormalTok{(pop75.com}\FloatTok{.67}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     67001     67002     67003     67004     67005     67006 
+## 147.00000  52.04082  42.72553  51.12523  68.90592  26.49524
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# population de 75 ans et plus par commune et par sexe}
+\NormalTok{pop75.com}\FloatTok{.67}\NormalTok{.sexe <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(pop75$NB, }\KeywordTok{list}\NormalTok{(}\KeywordTok{factor}\NormalTok{(pop75$CODGEO), pop75$SEXE), sum)}
+\KeywordTok{colnames}\NormalTok{(pop75.com}\FloatTok{.67}\NormalTok{.sexe) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{,}\StringTok{"F"}\NormalTok{)}
+
+\KeywordTok{head}\NormalTok{(pop75.com}\FloatTok{.67}\NormalTok{.sexe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               H        F
+## 67001 64.000000 83.00000
+## 67002 19.775510 32.26531
+## 67003 18.878723 23.84681
+## 67004 23.596262 27.52897
+## 67005 29.667828 39.23810
+## 67006  7.133333 19.36190
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# création d'un dataframe avec nom commune, code commune, pop totale par commune, les 75 ans et plus, le pourcentage}
+\NormalTok{a <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{unique}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$LIBGEO), }\KeywordTok{unique}\NormalTok{(pop67}\FloatTok{.2012}\NormalTok{$CODGEO), pop.com}\FloatTok{.67}\NormalTok{, pop.com}\FloatTok{.67}\NormalTok{.sexe[,}\StringTok{"H"}\NormalTok{], pop.com}\FloatTok{.67}\NormalTok{.sexe[,}\StringTok{"F"}\NormalTok{], pop75.com}\FloatTok{.67}\NormalTok{, pop75.com}\FloatTok{.67}\NormalTok{.sexe[,}\StringTok{"H"}\NormalTok{], pop75.com}\FloatTok{.67}\NormalTok{.sexe[,}\StringTok{"F"}\NormalTok{],  pop75.com}\FloatTok{.67} \NormalTok{*}\StringTok{ }\DecValTok{100} \NormalTok{/}\StringTok{ }\NormalTok{pop.com}\FloatTok{.67}\NormalTok{)}
+\KeywordTok{names}\NormalTok{(a) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"LIBGEO"}\NormalTok{,}\StringTok{"CODGEO"}\NormalTok{,}\StringTok{"POP67"}\NormalTok{,}\StringTok{"H67"}\NormalTok{,}\StringTok{"F67"}\NormalTok{,}\StringTok{"POP67_75"}\NormalTok{,}\StringTok{"POP67_75H"}\NormalTok{,}\StringTok{"POP67_75F"}\NormalTok{, }\StringTok{"p75"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(a)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             LIBGEO CODGEO POP67       H67       F67  POP67_75 POP67_75H
+## 67001    Achenheim  67001  2043 1019.0000 1024.0000 147.00000 64.000000
+## 67002  Adamswiller  67002   408  194.6327  213.3673  52.04082 19.775510
+## 67003         Albé  67003   467  243.4362  223.5638  42.72553 18.878723
+## 67004  Allenwiller  67004   526  270.3738  255.6262  51.12523 23.596262
+## 67005 Alteckendorf  67005   824  425.8769  398.1231  68.90592 29.667828
+## 67006    Altenheim  67006   214  103.9429  110.0571  26.49524  7.133333
+##       POP67_75F       p75
+## 67001  83.00000  7.195301
+## 67002  32.26531 12.755102
+## 67003  23.84681  9.148936
+## 67004  27.52897  9.719626
+## 67005  39.23810  8.362369
+## 67006  19.36190 12.380952
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(a$p75)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   6.680   7.980   8.181   9.344  30.490
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(a$p75, }\DataTypeTok{col =} \StringTok{"#E1B35C"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Nombre de communes"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Pourcentage des 75 ans et plus"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Répartition des seniors"}\NormalTok{)}
+
+\CommentTok{# communes aberantes}
+\NormalTok{a[}\KeywordTok{which}\NormalTok{(a$p75 >}\StringTok{ }\DecValTok{30}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                LIBGEO CODGEO POP67      H67      F67 POP67_75 POP67_75H
+## 67334 Niedersteinbach  67334   143 72.55748 70.44252 43.60727  16.77203
+##       POP67_75F     p75
+## 67334  26.83525 30.4946
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a[}\KeywordTok{which}\NormalTok{(a$p75 ==}\StringTok{ }\DecValTok{0}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            LIBGEO CODGEO POP67 H67 F67 POP67_75 POP67_75H POP67_75F p75
+## 67050 Blancherupt  67050    38  18  20        0         0         0   0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# On discrétise la colonne des % en 5 groupes de 5%}
+\NormalTok{a$cut <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(a$p75, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{50}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{right =} \OtherTok{FALSE}\NormalTok{)}
+
+\CommentTok{# et on transforme en classes numériques (servira pour colorier la carte)}
+\NormalTok{a$cut2 <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(a$cut)}
+
+\CommentTok{# couleurs}
+\KeywordTok{library}\NormalTok{(}\StringTok{"cartography"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: sp
+\end{verbatim}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{carto.pal}\NormalTok{(}\StringTok{"sand.pal"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Dessinner une carte}\label{dessinner-une-carte}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# carte des communes du 67}
+\KeywordTok{load}\NormalTok{(}\StringTok{"~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/carto67.Rda"}\NormalTok{)}
+
+\CommentTok{# fonction attribJoin}
+\KeywordTok{source}\NormalTok{(}\StringTok{'~/Documents/Resural/FEDORU/Trame_Commune/Zone_chalandise/zone_chalandise.R'}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(}\StringTok{"cartography"}\NormalTok{)}
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{carto.pal}\NormalTok{(}\StringTok{"sand.pal"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+
+\CommentTok{# on crée un nouveau dataframe en combinant la table attributaire du fichier SHP des communes du bas-rhin avec les données du bas-rhin. La fonction attrJoin permet de ne pas perdre l'ordre des communes et pa là le lien avec le dessin des contours.}
+\NormalTok{d67.p75 <-}\StringTok{ }\KeywordTok{attribJoin}\NormalTok{(a, st, }\StringTok{"CODGEO"}\NormalTok{, }\StringTok{"INSEE_COM"} \NormalTok{)}
+
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(d67.p75, }\DataTypeTok{col =} \NormalTok{cols[}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.factor}\NormalTok{(d67.p75$cut2))], }\DataTypeTok{main =} \StringTok{"Bas-Rhin - part des séniors"}\NormalTok{, }\DataTypeTok{border =} \StringTok{"white"}\NormalTok{)}
+\CommentTok{# legend("right", legend = levels(d67.p75$cut), col = cols, pch = 15, bty = "n", title = "Part des 75 ans\textbackslash{}n et plus (en %)")}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(d67.p75$cut), }\DataTypeTok{fill =} \NormalTok{cols, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Part des 75 ans}\CharTok{\textbackslash{}n}\StringTok{ et plus (en %)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# données INSEE recensement 2012}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Carte du taux de recours (75 ans et
+plus)}\label{carte-du-taux-de-recours-75-ans-et-plus}
+
+Il faut la carte par codes postaux car le RPU ne connait que les dodes
+postaux(CP) et le nom de la commune est aléatoire. On utilise le fichier
+\textbf{cp67} qui dessine la carte des CP. Inconvénient, la population
+communale est celle du recensement de 2010. Voir comment la mettre à
+jour. Il existe une table de conversion publiée par
+\href{http://public.opendatasoft.com/explore/dataset/correspondance-code-insee-code-postal/table/?tab=table}{Open
+Data}. Le fichier existe sous deux formes: SHP (carte des cp) et CSV.
+Enregistrés sous \emph{correspondance-code-insee-code-postal} dans
+Documents/CartographieR/Fond de carte des codes postaux/.
+
+\subsubsection{En pratique}\label{en-pratique}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  récupérer le fond de carte des codes postaux. Trois fichiers (67, 68,
+  toute l'Alsace)
+\item
+  créer le dataframe avec les données à représenter. Ce dataframe doit
+  avoir une colonne avec les codes postaux
+\item
+  merger les deux précédents
+\item
+  ajouter une colonne de discrétisation
+\item
+  ajouter une colonne qui transforme la précédente en niveaux de
+  facteurs.
+\item
+  créer un vecteur de dégradé de couleur
+\item
+  dessiner la carte
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# fond de carte des codes postaux}
+\KeywordTok{load}\NormalTok{(}\StringTok{"~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\StringTok{"~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp68.Rda"}\NormalTok{)}
+
+\CommentTok{# récupérer les données 2014}
+\KeywordTok{load}\NormalTok{(}\StringTok{"~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda"}\NormalTok{)}
+\CommentTok{# ne garder que la pop du 67 > 74 ans}
+\NormalTok{p <-}\StringTok{ "^67"}
+\NormalTok{rpu67}\FloatTok{.75} \NormalTok{<-}\StringTok{ }\NormalTok{d14[d14$AGE >}\StringTok{ }\DecValTok{74} \NormalTok{&}\StringTok{ }\KeywordTok{str_detect}\NormalTok{(d14$CODE_POSTAL, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+
+\CommentTok{# nb de RPU par code postal}
+\NormalTok{rpu67}\FloatTok{.75}\NormalTok{.cp <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(}\KeywordTok{as.Date}\NormalTok{(rpu67}\FloatTok{.75}\NormalTok{$ENTREE), }\KeywordTok{factor}\NormalTok{(rpu67}\FloatTok{.75}\NormalTok{$CODE_POSTAL), length)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{names}\NormalTok{(rpu67}\FloatTok{.75}\NormalTok{.cp), rpu67}\FloatTok{.75}\NormalTok{.cp)}
+
+\CommentTok{# Merging du fichier carto et des données complémentaires}
+\NormalTok{cp67.p75 <-}\StringTok{ }\KeywordTok{attribJoin}\NormalTok{(b, cp67, }\StringTok{"names.rpu67.75.cp."}\NormalTok{, }\StringTok{"ID"} \NormalTok{)}
+
+\CommentTok{# création des nouvelles colonnes}
+\NormalTok{cp67.p75$p75 <-}\StringTok{ }\NormalTok{cp67.p75$rpu67}\FloatTok{.75}\NormalTok{.cp *}\StringTok{ }\DecValTok{100} \NormalTok{/}\StringTok{ }\NormalTok{cp67.p75$POP2010}
+\NormalTok{cp67.p75$cut <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(cp67.p75$p75, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{10}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cp67.p75$cut2 <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(cp67.p75$cut)}
+
+\CommentTok{# affichage de la carte et de la légende}
+\CommentTok{# plot(cp67.p75, col = cols[as.numeric(as.factor(cp67.p75$cut))])}
+\KeywordTok{plot}\NormalTok{(cp67.p75, }\DataTypeTok{col =} \NormalTok{cols[cp67.p75$cut2], }\DataTypeTok{main =} \StringTok{"67 - Taux de recours des seniors"}\NormalTok{)}
+
+\KeywordTok{legend}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(cp67.p75$cut), }\DataTypeTok{fill =} \NormalTok{cols, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Taux de recours des 75 ans}\CharTok{\textbackslash{}n}\StringTok{ et plus (en %)"}\NormalTok{, }\DataTypeTok{cex =} \FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\subsection{Taux de recours
+pédiatrique}\label{taux-de-recours-pediatrique}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p <-}\StringTok{ "^67"}
+\NormalTok{rpu67}\FloatTok{.15} \NormalTok{<-}\StringTok{ }\NormalTok{d14[d14$AGE <}\StringTok{ }\DecValTok{15} \NormalTok{&}\StringTok{ }\KeywordTok{str_detect}\NormalTok{(d14$CODE_POSTAL, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\CommentTok{# nb de RPU par code postal}
+\NormalTok{rpu67}\FloatTok{.15}\NormalTok{.cp <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(}\KeywordTok{as.Date}\NormalTok{(rpu67}\FloatTok{.15}\NormalTok{$ENTREE), }\KeywordTok{factor}\NormalTok{(rpu67}\FloatTok{.15}\NormalTok{$CODE_POSTAL), length)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{names}\NormalTok{(rpu67}\FloatTok{.15}\NormalTok{.cp), rpu67}\FloatTok{.15}\NormalTok{.cp)}
+\CommentTok{# Merging du fichier carto et des données complémentaires}
+\NormalTok{cp67.p15 <-}\StringTok{ }\KeywordTok{attribJoin}\NormalTok{(b, cp67, }\StringTok{"names.rpu67.15.cp."}\NormalTok{, }\StringTok{"ID"} \NormalTok{)}
+\NormalTok{cp67.p15$p15 <-}\StringTok{ }\NormalTok{cp67.p15$rpu67}\FloatTok{.15}\NormalTok{.cp *}\StringTok{ }\DecValTok{100} \NormalTok{/}\StringTok{ }\NormalTok{cp67.p15$POP2010}
+\KeywordTok{summary}\NormalTok{(cp67.p15$p15)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.4062  2.3340  3.1920  3.7800  4.5710 12.7100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cp67.p15$cut <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(cp67.p15$p15, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{15}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cp67.p15$cut2 <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(cp67.p15$cut)}
+\KeywordTok{display.carto.all} \NormalTok{(}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{carto.pal}\NormalTok{(}\StringTok{"pink.pal"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(cp67.p15, }\DataTypeTok{col =} \NormalTok{cols[cp67.p15$cut2], }\DataTypeTok{main =} \StringTok{"67 - Taux de recours pédiatriques (2014)"}\NormalTok{, }\DataTypeTok{border =} \StringTok{"white"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(cp67.p15$cut), }\DataTypeTok{fill =} \NormalTok{cols, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Taux de recours des}\CharTok{\textbackslash{}n}\StringTok{ moins de 15 ans (en %)"}\NormalTok{, }\DataTypeTok{cex =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\subsection{Taux de recours adulte}\label{taux-de-recours-adulte}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p <-}\StringTok{ "^67"} \CommentTok{# code postal commence par 67}
+\NormalTok{rpu67.18_74 <-}\StringTok{ }\NormalTok{d14[d14$AGE >}\StringTok{ }\DecValTok{17} \NormalTok{&}\StringTok{ }\NormalTok{d14$AGE <}\StringTok{ }\DecValTok{75} \NormalTok{&}\StringTok{ }\KeywordTok{str_detect}\NormalTok{(d14$CODE_POSTAL, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+
+\CommentTok{# nb de RPU par code postal}
+\NormalTok{rpu67.18_74.cp <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(}\KeywordTok{as.Date}\NormalTok{(rpu67.18_74$ENTREE), }\KeywordTok{factor}\NormalTok{(rpu67.18_74$CODE_POSTAL), length)}
+\CommentTok{# transformation en dataframe}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{names}\NormalTok{(rpu67.18_74.cp), rpu67.18_74.cp)}
+
+\CommentTok{# Merging du fichier carto et des données complémentaires}
+\NormalTok{cp67.p18_74 <-}\StringTok{ }\KeywordTok{attribJoin}\NormalTok{(b, cp67, }\StringTok{"names.rpu67.18_74.cp."}\NormalTok{, }\StringTok{"ID"} \NormalTok{)}
+\NormalTok{cp67.p18_74$p18_74 <-}\StringTok{ }\NormalTok{cp67.p18_74$rpu67.18_74.cp *}\StringTok{ }\DecValTok{100} \NormalTok{/}\StringTok{ }\NormalTok{cp67.p18_74$POP2010}
+\KeywordTok{summary}\NormalTok{(cp67.p18_74$p18_74)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   2.031   6.689   9.089   9.361  11.900  20.210
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cp67.p18_74$cut <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(cp67.p18_74$p18_74, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{25}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cp67.p18_74$cut2 <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(cp67.p18_74$cut)}
+\CommentTok{# display.carto.all (5) # échantillinnage de couleurs}
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{carto.pal}\NormalTok{(}\StringTok{"green.pal"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(cp67.p18_74, }\DataTypeTok{col =} \NormalTok{cols[cp67.p18_74$cut2], }\DataTypeTok{main =} \StringTok{"67 - Taux de recours des adultes (2014)"}\NormalTok{, }\DataTypeTok{border =} \StringTok{"white"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(cp67.p18_74$cut), }\DataTypeTok{fill =} \NormalTok{cols, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Taux de recours entre}\CharTok{\textbackslash{}n}\StringTok{ 18 et 75 ans (en %)"}\NormalTok{, }\DataTypeTok{cex =} \FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\section{Autres départements}\label{autres-departements}
+
+\subsection{Pédiatrie 68}\label{pediatrie-68}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p <-}\StringTok{ "^68"}
+\NormalTok{rpu68}\FloatTok{.15} \NormalTok{<-}\StringTok{ }\NormalTok{d14[d14$AGE <}\StringTok{ }\DecValTok{15} \NormalTok{&}\StringTok{ }\KeywordTok{str_detect}\NormalTok{(d14$CODE_POSTAL, p) ==}\StringTok{ }\OtherTok{TRUE}\NormalTok{,]}
+\CommentTok{# nb de RPU par code postal}
+\NormalTok{rpu68}\FloatTok{.15}\NormalTok{.cp <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(}\KeywordTok{as.Date}\NormalTok{(rpu68}\FloatTok{.15}\NormalTok{$ENTREE), }\KeywordTok{factor}\NormalTok{(rpu68}\FloatTok{.15}\NormalTok{$CODE_POSTAL), length)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{names}\NormalTok{(rpu68}\FloatTok{.15}\NormalTok{.cp), rpu68}\FloatTok{.15}\NormalTok{.cp)}
+\CommentTok{# Merging du fichier carto et des données complémentaires}
+\NormalTok{cp68.p15 <-}\StringTok{ }\KeywordTok{attribJoin}\NormalTok{(b, cp68, }\StringTok{"names.rpu68.15.cp."}\NormalTok{, }\StringTok{"ID"} \NormalTok{)}
+\NormalTok{cp68.p15$p15 <-}\StringTok{ }\NormalTok{cp68.p15$rpu68}\FloatTok{.15}\NormalTok{.cp *}\StringTok{ }\DecValTok{100} \NormalTok{/}\StringTok{ }\NormalTok{cp68.p15$POP2010}
+\KeywordTok{summary}\NormalTok{(cp68.p15$p15)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.094   4.522   5.869   8.419   7.385 222.800
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cp68.p15$cut <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(cp68.p15$p15, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{15}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cp68.p15$cut2 <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(cp68.p15$cut)}
+\CommentTok{# display.carto.all (5)}
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{carto.pal}\NormalTok{(}\StringTok{"pink.pal"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(cp68.p15, }\DataTypeTok{col =} \NormalTok{cols[cp68.p15$cut2], }\DataTypeTok{main =} \StringTok{"68 - Taux de recours pédiatriques (2014)"}\NormalTok{, }\DataTypeTok{border =} \StringTok{"white"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{levels}\NormalTok{(cp68.p15$cut), }\DataTypeTok{fill =} \NormalTok{cols, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Taux de recours des}\CharTok{\textbackslash{}n}\StringTok{ moins de 15 ans (en %)"}\NormalTok{, }\DataTypeTok{cex =} \FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{insee_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\section{Créer un SHP}\label{creer-un-shp}
+
+A partir du fichier \textbf{Hopitaux\_Alsace.csv} qui contient la liste
+des hôpitaux ayant un service d'urgence avec leurs coordonnées WSG84 et
+Lambert 93, on crée un \emph{SpatialPointDataFrame} qui est sauvegardé
+au format \emph{Shapefile} (SHP).
+
+\subsubsection{Lambert93}\label{lambert93}
+
+\begin{verbatim}
+library(rgdal)
+library(sp)
+hop <- read.csv("~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/Hopitaux_Alsace.csv")
+# transformation de hop en SpatialPointDataFrame
+coordinates(hop) <- ~LAMB93_X+LAMB93_Y
+# Sauvegarde au format SHP
+writeOGR(hop, "INSEE/hop_Lambert", "hop_Lamb_shp", driver = "ESRI Shapefile")
+plot(hop, pch = 16, col = "red")
+
+# save(hop, file = "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/Hopitaux_Alsace_Lambert.Rda")
+\end{verbatim}
+
+\subsubsection{WSG84}\label{wsg84}
+
+\begin{verbatim}
+hop <- read.csv("~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/Hopitaux_Alsace.csv")
+coordinates(hop) <- ~LAT+LONG
+writeOGR(hop, "INSEE/hop_wsg84", "hop_shp", driver = "ESRI Shapefile")
+\end{verbatim}
+
+\end{document}
