@@ -292,6 +292,54 @@ legend("right", legend = levels(cp68.p15$cut), fill = cols, bty = "n", title = "
 
 ```
 
+Adultes 68
+----------
+
+```{r, fig.height=8}
+p <- "^68"
+rpu68.18_75 <- d14[d14$AGE > 17 & d14$AGE < 75 & str_detect(d14$CODE_POSTAL, p) == TRUE,]
+cols <- carto.pal("green.pal", 5)
+source("carto_recours_cp.R")
+carto.recours.cp(rpu68.18_75, rpu68.18_75$CODE_POSTAL, cp68, "ID", cols = cols, titre = "68 - Taux de recours adulte en 2014", legende = "Taux de recours entre\n 18 et 75 ans (en %)")
+```
+
+Nombre d'habitants par code postal
+==================================
+
+Pour calculer un TARRU pour les 75 ans et plus, il faut connaître le nombre de 75 ans et plus par code postal. Pour ce faire, il faut une correspondance code postal - code INSEE. Un CP est formé d'un ou plusieurs CI.
+
+```{r}
+# fichier des correspondances (25 Mo)
+file <- "/home/jcb/Documents/CartographieR/Fond de carte des codes postaux/correspondance-code-insee-code-postal.csv"
+cp <- read.csv2(file)
+
+# on ne garde que les colonnes utiles
+cpci <- cp[, c("Code.INSEE", "Code.Postal", "Commune", "Code.Département", "Code.Région")]
+names(cpci) <- c("Code.INSEE", "Code.Postal", "Commune", "Code.Departement", "Code.Region")
+write.csv(cpci, file = "INSEE/cpci.csv")
+
+# fichiers spécifiques 67 et 68
+cpci67 <- cpci[cpci$Code.Departement == 67,]
+cpci68 <- cpci[cpci$Code.Departement == 68,]
+write.csv(cpci67, file = "INSEE/cpci67.csv")
+write.csv(cpci68, file = "INSEE/cpci68.csv")
+
+# il faut ajouter une colonne population de la commune. On crée un dataframe à 2 colonnes, code INSEE et population de 75 ans et plus
+pop75 <- pop67.2012[pop67.2012$AGED100 > 74,]
+pop75.com.67 <- tapply(pop75$NB, factor(pop75$CODGEO), sum)
+pop75.com.67 <- data.frame(names(pop75.com.67), pop75.com.67)
+
+# Il faut merger les 2 dataframe
+a <- merge(cpci67, pop75.com.67, by.x = "Code.INSEE", by.y = "names.pop75.com.67.")
+
+
+```
+[1] "Code.INSEE"          "Code.Postal"         "Commune"             "Département"         "Région"              "Statut"             
+ [7] "Altitude.Moyenne"    "Superficie"          "Population"          "geo_point_2d"        "geo_shape"           "ID.Geogla"          
+[13] "Code.Commune"        "Code.Canton"         "Code.Arrondissement" "Code.Département"    "Code.Région"  
+
+
+
 Créer un SHP
 ============
  A partir du fichier __Hopitaux_Alsace.csv__ qui contient la liste des hôpitaux ayant un service d'urgence avec leurs coordonnées WSG84 et Lambert 93, on crée un _SpatialPointDataFrame_ qui est sauvegardé au format _Shapefile_ (SHP).

@@ -20,7 +20,7 @@
 #' cols <- carto.pal("green.pal", 5)
 #' carto.recours.cp(dx, dx.id, cp67, "ID", cols = cols, titre = "test")
 
-carto.recours.cp <- function(dx, dx.id, spdf, spdf.id, cols, titre = ""){
+carto.recours.cp <- function(dx, dx.id, spdf, spdf.id, cols, titre = "", legende = ""){
     # nb de RPU par code postal
     rpu.finess <- tapply(as.Date(dx$ENTREE), factor(dx$CODE_POSTAL), length)
     
@@ -43,13 +43,13 @@ carto.recours.cp <- function(dx, dx.id, spdf, spdf.id, cols, titre = ""){
     
     # dessin de la carte
     # plot(merge.df, col = cols[merge.df$cut2], main = titre, border = "white")
-    plot(merge.df, col = cols[merge.df$cut2])
+    plot(merge.df, col = cols[merge.df$cut2], main = titre)
     
     # dessin de la légende
     legend("right", 
            legend = levels(merge.df$cut), 
            fill = cols, bty = "n", 
-           title = "Taux de recours entre\n 18 et 75 ans (en %)", 
+           title = legende, 
            cex = 0.8)
     
 }

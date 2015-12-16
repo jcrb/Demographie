@@ -430,6 +430,21 @@ legend("right", legend = levels(cp68.p15$cut), fill = cols, bty = "n", title = "
 
 ![](insee_files/figure-html/unnamed-chunk-7-1.png) 
 
+Adultes 68
+----------
+
+
+```r
+p <- "^68"
+rpu68.18_75 <- d14[d14$AGE > 17 & d14$AGE < 75 & str_detect(d14$CODE_POSTAL, p) == TRUE,]
+cols <- carto.pal("green.pal", 5)
+source("carto_recours_cp.R")
+carto.recours.cp(rpu68.18_75, rpu68.18_75$CODE_POSTAL, cp68, "ID", cols = cols, titre = "68 - Taux de recours adulte en 2014", legende = "Taux de recours entre\n 18 et 75 ans (en %)")
+```
+
+![](insee_files/figure-html/unnamed-chunk-8-1.png) 
+
+
 Créer un SHP
 ============
  A partir du fichier __Hopitaux_Alsace.csv__ qui contient la liste des hôpitaux ayant un service d'urgence avec leurs coordonnées WSG84 et Lambert 93, on crée un _SpatialPointDataFrame_ qui est sauvegardé au format _Shapefile_ (SHP).
